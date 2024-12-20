@@ -1,14 +1,15 @@
-import { DarkTheme, DefaultTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useColorScheme } from 'react-native';
+import { ThemedView  } from '@/components/ThemedView';
+import { createStackNavigator } from '@react-navigation/stack';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+const Stack = createStackNavigator();
+import LoginScreen from './Login'; // Adjust path
+import NotFoundScreen from './NotFound'; // Adjust path
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -24,19 +25,16 @@ export default function RootLayout() {
   }, [loaded]);
 
   if (!loaded) {
-    return null;
+    return null; // Show nothing until fonts are loaded
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="LoginAndReg" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: true }} />
-          <Stack.Screen name="+not-found" />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <ThemedView>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      </Stack.Navigator>
       <StatusBar style="auto" />
-    </ThemeProvider>
+    </ThemedView>
   );
 }
