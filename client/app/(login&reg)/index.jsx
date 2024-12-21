@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { validEmail } from "../../components/regex.jsx";
+
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user_email, setEmail] = useState('');
+  const [user_password, setPassword] = useState('');
 
+  const [user_emailError, setEmailError] = useState('');
+  const [user_passwordError, setPasswordError] = useState("");
+
+  const [loginError, setLoginError] = useState("")
   const handleLogin = () => {
     // Add your login logic here
     if (email === 'test@example.com' && password === 'password') {
@@ -14,8 +20,27 @@ export default function LoginScreen() {
     }
   };
 
+  const handleUserEmail = (e) => {
+    setEmail(e);
+    if (!validEmail.test(e)) {
+      setEmailError("Invalid email format");
+    } else {
+      setEmailError(false);
+    }
+  };
+
+  // const handleUserPassword = (e) => {
+  //   setPassword(e);
+  //   if (e.length < 8) {
+  //     setPasswordError("Password must be longer than 8 characters");
+  //   } else {
+  //     setPasswordError(false);
+  //   }
+  // };
+
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Lawrence's Big Idle RPG</Text>
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -23,17 +48,19 @@ export default function LoginScreen() {
         placeholderTextColor="#aaa"
         keyboardType="email-address"
         autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
+        value={user_email}
+        onChangeText={handleUserEmail}
       />
+      {user_emailError ? <Text style={styles.error}> {user_emailError} </Text> : null}
       <TextInput
         style={styles.input}
         placeholder="Password"
         placeholderTextColor="#aaa"
         secureTextEntry
-        value={password}
+        value={user_password}
         onChangeText={setPassword}
       />
+      {loginError ? <Text style = {styles.error}> Log in failed! Please check your log in information again !</Text>: null}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
@@ -46,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 32,
@@ -76,4 +103,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  error: {
+    color: "red",
+    marginBottom: 10,
+},
 });
