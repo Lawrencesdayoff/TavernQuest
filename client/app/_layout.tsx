@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
+import { SessionProvider } from '../components/ctx';
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="(login&reg)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+
+    <SessionProvider>
+      <Slot />
+    </SessionProvider>
+
   );
 }

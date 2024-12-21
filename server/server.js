@@ -11,7 +11,7 @@ import './jobs/questScheduler.js'
 
 const app = express();
 app.use(express.json(), cors({
-    origin: 'http://localhost:5173'
+    origin: 'http://localhost:8081'
   }));
 app.use('/api', UserRoutes)
 app.use('/api', CharacterRoutes)

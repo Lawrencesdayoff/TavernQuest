@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
 import axios from "axios";
 import { validEmail } from "../../components/regex.jsx";
 
-const RegisterForm = (f) => {
+const RegisterForm = () => {
     const [user_firstname, setFirstname] = useState("");
     const [user_lastname, setLastname] = useState("");
     const [user_username, setUsername] = useState("");

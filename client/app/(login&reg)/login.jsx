@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { validEmail } from "../../components/regex.jsx";
-
+import { router } from 'expo-router';
+import { useSession } from '../../components/ctx';
 
 export default function LoginScreen() {
   const [user_email, setEmail] = useState('');
   const [user_password, setPassword] = useState('');
-
   const [user_emailError, setEmailError] = useState('');
   const [user_passwordError, setPasswordError] = useState("");
-
   const [loginError, setLoginError] = useState("")
+
+  const { signIn } = useSession();
+
   const handleLogin = () => {
     // Add your login logic here
-    if (email === 'test@example.com' && password === 'password') {
+    if (user_email === 'test@example.com' && user_password === 'password') {
       Alert.alert('Login Success', 'Welcome back!');
+      signIn(user_email);
+      router.replace("/")
     } else {
       Alert.alert('Login Failed', 'Invalid email or password.');
     }
@@ -60,7 +64,7 @@ export default function LoginScreen() {
         value={user_password}
         onChangeText={setPassword}
       />
-      {loginError ? <Text style = {styles.error}> Log in failed! Please check your log in information again !</Text>: null}
+      {loginError ? <Text style={styles.error}> Log in failed! Please check your log in information again !</Text> : null}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
@@ -106,5 +110,5 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
     marginBottom: 10,
-},
+  },
 });
