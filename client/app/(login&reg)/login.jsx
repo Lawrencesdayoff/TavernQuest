@@ -17,6 +17,7 @@ export default function LoginScreen() {
     // Add your login logic here
     if (user_email === 'test@example.com' && user_password === 'password') {
       Alert.alert('Login Success', 'Welcome back!');
+      
       signIn(user_email);
       router.replace("/")
     } else {
